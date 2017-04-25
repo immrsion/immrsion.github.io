@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+    var meta = {
+      title: 'Father King',
+      artist: 'Emancipator',
+      artwork: 'https://i1.sndcdn.com/artworks-000216122952-aq6qfi-t500x500.jpg',
+      src: 'http://p4.bcbits.com/download/track/b29ff69369fc4ef88f2b1736bf31a70c/mp3-128/1240252156?fsig=df47aff0ab9607e2690f137716b00155&id=1240252156&stream=1&ts=1493150400.0&token=1493150460_7524eaad25961d6d9135cc9b72567983065007ce',
+      link: {
+        soundcloud: 'https://soundcloud.com/stereofld/helix',
+        bandcamp: '',
+        itunes: '',
+        amazon: '',
+        youtube: 'https://www.youtube.com/watch?v=c4eNAuRo_Kk'
+      }
+    };
+
+    // IGNORE ALL BELOW THIS LINE //
+    </script>
+    <script src="https://use.fontawesome.com/d4cd3d7191.js"></script>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+    .modal {
+      z-index: 999;
+      display: flex;
+      top: 0px;
+      left: 0px;
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      background: rgba(0,0,0,0.8);
+    }
+    .modal .inner {
+      align-items: center;
+      margin: auto;
+      width: 350px;
+    }
+    a {
+      cursor: pointer;
+    }
+    body {
+      margin: 0px;
+      background: #222222;
+      font-family: "SF UI Display", "Helvetica Neue", "Raleway", sans-serif;
+      font-weight: 100;
+      font-size: 30px;
+      color: white;
+      overflow: hidden;
+    }
+    div.player {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+      z-index: 0;
+    }
+    div.inner {
+      display: block;
+    }
+    .player img {
+      width: 400px;
+      height: 400px;
+      opacity: 0;
+      transition: opacity 0.1s linear;
+      border-radius: 5px;
+    }
+    .player img:hover {
+      opacity: 1;
+    }
+    .image {
+      width: 400px;
+      height: 400px;
+      background-size: 400px;
+      box-shadow: 0px 5px 8px rgba(0,0,0,0.25);
+      border-radius: 5px;
+    }
+    div.text {
+      text-align: center;
+      font-size: 35px;
+      margin-top: 30px;
+    }
+    span.artist {
+      font-weight: 500;
+    }
+    img.bg {
+      filter: blur(2vw);
+      opacity: 0.7;
+      position: absolute;
+      top: -10vw;
+      left: -10vw;
+      width: 120vw;
+      height: 120vw;
+      z-index: -1;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.2s ease-out;
+    }
+    a:hover {
+      color: #bbb;
+    }
+    div.item {
+      padding: 15px;
+      margin-top: 15px;
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 4px;
+      font-size: 20px;
+      cursor: pointer;
+      font-weight: normal;
+      transition: background 0.1s linear;
+    }
+    div.item:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    .close {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      color: #aaaaaa;
+    }
+    </style>
+  </head>
+  <body><img class="bg" src="">
+    <div class="player"><div class="inner">
+      <div class="image"><img src="play.png"></div>
+      <a><div class="text">
+        <span class="artist"></span> <span class="title"></span>
+      </div></a>
+      <audio src=""></audio>
+    </div></div>
+    <div class="modal"><div class="inner">
+      <i class="close fa fa-close"></i>
+      Listen to&nbsp;<span class="artist"></span>
+      <div class="items">
+        <a class="soundcloud"><div class="item"><i class="fa fa-soundcloud"></i> SoundCloud</div></a>
+        <a class="bandcamp"><div class="item"><i class="fa fa-bandcamp"></i> Bandcamp</div></a>
+        <a class="itunes"><div class="item"><i class="fa fa-apple"></i> iTunes</div></a>
+        <a class="amazon"><div class="item"><i class="fa fa-amazon"></i> Amazon</div></a>
+        <a class="youtube"><div class="item"><i class="fa fa-youtube-play"></i> YouTube</div></a>
+      </div>
+    </div></div>
+    <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script>
+    function getParameterByName(name, url) {
+      if (!url) {
+        url = window.location.href;
+      }
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+      var playState = 0;
+      function load() {
+        var query1 = getParameterByName('a');
+        var query2 = getParameterByName('t');
+
+        $('div.modal').fadeOut(0);
+        // Fill Out Template
+        $('.image').css('background-image', 'url(' + meta.artwork + ')');
+        $('img.bg').attr('src', meta.artwork);
+        $('div.player span.artist').text(meta.artist);
+        $('span.title').text(meta.title);
+        $('title').text(meta.artist + ' - ' + meta.title);
+        $('audio').attr('src', meta.src);
+        $('head').append('<link rel="shortcut icon" href="' + meta.artwork + '">');
+        // modal
+        $('div.modal span.artist').text(meta.title);
+
+        for(var i = 0; i < Object.keys(meta.link).length; i++) {
+          if(meta.link[Object.keys(meta.link)[i]] !== '') {
+            $('a.' + Object.keys(meta.link)[i]).attr('href', meta.link[Object.keys(meta.link)[i]]);
+          } else {
+            $('a.' + Object.keys(meta.link)[i] + ' *').fadeOut(0);
+          }
+        }
+        //
+        playPause();
+      }
+      // Make it Play
+      function playPause() {
+        if(playState === 0) {
+          $('.image img').attr('src', 'pause.png');
+          $('audio').trigger('play');
+          playState = 1;
+        } else {
+          $('.image img').attr('src', 'play.png');
+          $('audio').trigger('pause');
+          playState = 0;
+        }
+      }
+      // Press Space
+      $('*').keypress(function(key) {
+        if(key.which == 32) {
+          playPause();
+        }
+      });
+
+        // Fanlinks
+        function openModal() {
+          $('div.modal').fadeIn(100);
+        }
+        function closeModal() {
+          $('div.modal').fadeOut(100);
+        }
+      // Execute Code
+      $(load);
+      $('.image').click(playPause);
+      $('div.player a').click(openModal);
+      $('.close').click(closeModal);
+    </script>
+  </body>
+</html>
