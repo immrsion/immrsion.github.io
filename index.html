@@ -188,11 +188,11 @@
       // Make it Play
       function playPause() {
         if(playState === 0) {
-          $('.image img').attr('src', 'pause.png');
+          $('.image img').attr('src', 'https://raw.githubusercontent.com/immrsion/immrsion.github.io/master/pause.png');
           $('audio').trigger('play');
           playState = 1;
         } else {
-          $('.image img').attr('src', 'play.png');
+          $('.image img').attr('src', 'https://raw.githubusercontent.com/immrsion/immrsion.github.io/master/play.png');
           $('audio').trigger('pause');
           playState = 0;
         }
